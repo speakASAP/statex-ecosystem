@@ -1,6 +1,6 @@
 # statex-ecosystem
 
-Next.js catalog of Statex applications and microservices with curated outbound links. Deployed with **nginx-microservice** blue/green like other Alfares sites.
+Next.js catalog of Statex applications and microservices with curated outbound links. Deployed with **nginx-microservice** blue/green like other Statex sites.
 
 **Production URL:** <https://statex-ecosystem.alfares.cz>
 

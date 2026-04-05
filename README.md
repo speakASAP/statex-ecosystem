@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# statex-ecosystem
 
-## Getting Started
+Next.js catalog of Statex applications and microservices with curated outbound links. Deployed with **nginx-microservice** blue/green like other Alfares sites.
 
-First, run the development server:
+**Production URL:** <https://statex-ecosystem.alfares.cz>
+
+## Ports (47xx range)
+
+| Deployment | Host port | Env variable | Container port |
+|------------|-----------|--------------|------------------|
+| Blue | **4710** | `PORT` | `CONTAINER_PORT` (default **3000**) |
+| Green | **4711** | `PORT_GREEN` | **3000** |
+
+Documented in [shared/README.md](../shared/README.md) (Port Configuration Reference). **4710–4711** follow **rehtani** (4700–4701) in the same **47xx** static/catalog block.
+
+## Configuration
+
+- Copy [`.env.example`](.env.example) to `.env` (never commit `.env`).
+- Required keys: `DOMAIN`, `SERVICE_NAME`, `NGINX_NETWORK_NAME`, `PORT`, `PORT_GREEN`, `CONTAINER_PORT`.
+- Template and canonical env names: [shared/docs/ENV_FILE_STANDARD.md](../shared/docs/ENV_FILE_STANDARD.md) (archetype B).
+- See [shared/docs/DEPLOY_STANDARD.md](../shared/docs/DEPLOY_STANDARD.md) and [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- App: <http://localhost:3000>
+- Health: <http://localhost:3000/api/health>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Docker
 
-To learn more about Next.js, take a look at the following resources:
+**Production (blue/green, requires `nginx-network`):**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+docker compose -f docker-compose.blue.yml config --quiet
+docker compose -f docker-compose.green.yml config --quiet
+./scripts/deploy.sh
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Local smoke test** (default bridge network):
 
-## Deploy on Vercel
+```bash
+docker compose up --build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+→ <http://localhost:4710> (host `PORT` → container `3000`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy script
+
+From repository root:
+
+```bash
+chmod +x scripts/deploy.sh   # once
+./scripts/deploy.sh
+```
+
+Uses `nginx-microservice/scripts/blue-green/deploy-smart.sh`. Nginx route list: [`nginx/nginx-api-routes.conf`](nginx/nginx-api-routes.conf) (empty on purpose — full-URI proxy for Next.js assets; see [rehtani/nginx/nginx-api-routes.conf](../rehtani/nginx/nginx-api-routes.conf)).
+
+## Data
+
+Service names and URLs are curated in `src/data/ecosystem.ts`. When you add a service in `shared/README.md` or `shared/ECOSYSTEM_MAP.md`, update that file.
+
+**business-orchestrator** is listed as **Coming soon** with planned URL `https://orchestrator.statex.cz`.
+
+## Stack
+
+Next.js 16 (App Router), TypeScript, Tailwind CSS v4, `output: "standalone"` for Docker.

@@ -161,6 +161,8 @@ export const ecosystemItems: EcosystemItem[] = [
     name: "agentic-email-processing-system",
     kind: "microservice",
     summary: "AI email triage and classification.",
+    primaryUrl: h("aeps.alfares.cz"),
+    links: [{ label: "Health", href: h("aeps.alfares.cz", "/health") }],
   },
   {
     slug: "allegro-service",

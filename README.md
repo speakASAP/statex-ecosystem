@@ -68,7 +68,14 @@ Uses `nginx-microservice/scripts/blue-green/deploy-smart.sh`. Nginx route list: 
 
 ## Data
 
-Service names and URLs are curated in `src/data/ecosystem.ts`. When you add a service in `shared/README.md` or `shared/ECOSYSTEM_MAP.md`, update that file.
+Service names and metadata are curated in `src/data/ecosystem.ts`.
+
+Public URLs are resolved at runtime in this order:
+
+1. `nginx-microservice/service-registry` JSON entries (configurable with `NGINX_SERVICE_REGISTRY_PATH`)
+2. `.env` overrides by slug pattern: `<SLUG_UPPERCASE_WITH_UNDERSCORES>_PUBLIC_URL` (example: `AGENTIC_EMAIL_PROCESSING_SYSTEM_PUBLIC_URL`)
+
+When you add a service in `shared/README.md` or `shared/ECOSYSTEM_MAP.md`, update `src/data/ecosystem.ts`. Do not hardcode public URLs there.
 
 **business-orchestrator** is listed as **Coming soon** with planned URL `https://orchestrator.statex.cz`.
 

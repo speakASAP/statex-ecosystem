@@ -1,7 +1,9 @@
 import { EcosystemCatalog } from "@/components/EcosystemCatalog";
-import { ecosystemItems } from "@/data/ecosystem";
+import { getEcosystemItems } from "@/data/ecosystemRuntime";
 
-export default function Home() {
+export default async function Home() {
+  const ecosystemItems = await getEcosystemItems();
+
   return (
     <div className="flex flex-1 flex-col">
       <header className="border-b border-white/10 bg-black/20 px-6 py-10 backdrop-blur-md">

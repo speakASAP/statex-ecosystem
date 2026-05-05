@@ -3,24 +3,35 @@
 ## Stack
 
 - **Next.js** (see repo `package.json` for version)
-- **Docker** blue/green via `docker-compose.blue.yml` / `docker-compose.green.yml` and `./scripts/deploy.sh`
-- **nginx-microservice** for TLS and routing
+- **Kubernetes** (`statex-apps` namespace, k3s)
+- **Traefik v3** for TLS and routing
 
-## Ports
+## Port & Domain
 
-| Role | Host port | Notes |
-|------|-----------|--------|
-| Blue | 4710 | `PORT` in `.env` |
-| Green | 4711 | `PORT_GREEN` |
-| Container | 3000 | `CONTAINER_PORT` (default) |
+| Role | Value |
+|------|-------|
+| Port | 4710 |
+| Domain | https://statex-ecosystem.alfares.cz |
 
-## Env
+## Deployment
 
-- Copy `.env.example` → `.env`
-- Required: `DOMAIN`, `SERVICE_NAME`, `NGINX_NETWORK_NAME`, `PORT`, `PORT_GREEN`, `CONTAINER_PORT`
-- Archetype: [shared/docs/ENV_FILE_STANDARD.md](../shared/docs/ENV_FILE_STANDARD.md) (B)
+**Platform:** Kubernetes (k3s) · namespace `statex-apps`  
+**Image:** `localhost:5000/statex-ecosystem:latest`  
+**Deploy:** `./scripts/deploy.sh`  
+**Logs:** `kubectl logs -n statex-apps -l app=statex-ecosystem -f`  
+**Restart:** `kubectl rollout restart deployment/statex-ecosystem -n statex-apps`
+
+## Secrets
+
+All secrets in Vault at `secret/prod/statex-ecosystem`.  
+Synced via ESO → K8s Secret `statex-ecosystem-secret`.  
+See [`../shared/docs/VAULT.md`](../shared/docs/VAULT.md).
 
 ## Docs
 
-- Deploy detail: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
 - Ecosystem tables: [shared/ECOSYSTEM_MAP.md](../shared/ECOSYSTEM_MAP.md)
+- Deploy standard: [shared/docs/DEPLOY_STANDARD.md](../shared/docs/DEPLOY_STANDARD.md)
+
+## Current State
+<!-- AI-maintained -->
+Stage: production · Deploy: Kubernetes (`statex-apps`)

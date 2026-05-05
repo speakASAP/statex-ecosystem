@@ -27,7 +27,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 4710
-              name: http
           envFrom:
             - configMapRef:
                 name: statex-ecosystem-config

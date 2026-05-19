@@ -32,11 +32,17 @@ spec:
                 name: statex-ecosystem-config
             - secretRef:
                 name: statex-ecosystem-secret
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: 4710
+            failureThreshold: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
           livenessProbe:
             httpGet:
               path: /api/health
               port: 4710
-            initialDelaySeconds: 15
             periodSeconds: 30
             failureThreshold: 3
             timeoutSeconds: 5

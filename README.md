@@ -1,6 +1,6 @@
 # statex-ecosystem
 
-Next.js catalog of Statex applications and microservices with curated outbound links. Deployed with **nginx-microservice** blue/green like other Statex sites.
+Next.js catalog of Statex applications and microservices with curated outbound links.
 
 **Production URL:** <https://statex-ecosystem.alfares.cz>
 
@@ -77,7 +77,6 @@ Public URLs are resolved at runtime in this order:
 
 When you add a service in `shared/README.md` or `shared/ECOSYSTEM_MAP.md`, update `src/data/ecosystem.ts`. Do not hardcode public URLs there.
 
-**business-orchestrator** is listed as **Coming soon** with planned URL `https://orchestrator.alfares.cz`.
 
 ## Stack
 

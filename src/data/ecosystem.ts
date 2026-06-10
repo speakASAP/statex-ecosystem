@@ -219,8 +219,8 @@ export const ecosystemItems: EcosystemItem[] = [
   },
   // —— Orchestration (roadmap) ——
   {
-    slug: "business-orchestrator",
-    name: "business-orchestrator",
+    slug: "runlayer",
+    name: "runlayer",
     kind: "orchestration",
     status: "future",
     summary:

@@ -66,6 +66,24 @@ export const ecosystemItems: EcosystemItem[] = [
     summary: "Centralized structured logging with timestamps and duration.",
   },
   {
+    slug: "monitoring-microservice",
+    name: "monitoring-microservice",
+    kind: "infrastructure",
+    summary: "Observability platform for metrics, dashboards, and runtime health.",
+  },
+  {
+    slug: "backups-microservice",
+    name: "backups-microservice",
+    kind: "infrastructure",
+    summary: "Centralized backup management for databases, object storage, and Kubernetes resources.",
+  },
+  {
+    slug: "docs-rag-microservice",
+    name: "docs-rag-microservice",
+    kind: "infrastructure",
+    summary: "Documentation RAG for semantic search over ecosystem knowledge.",
+  },
+  {
     slug: "notifications-microservice",
     name: "notifications-microservice",
     kind: "infrastructure",
@@ -76,6 +94,12 @@ export const ecosystemItems: EcosystemItem[] = [
     name: "ai-microservice",
     kind: "infrastructure",
     summary: "LLM inference, NLP, ASR, Document AI.",
+  },
+  {
+    slug: "ai-microservice-ollama",
+    name: "ai-microservice-ollama",
+    kind: "infrastructure",
+    summary: "Local Ollama runtime for ecosystem-hosted LLM workloads.",
   },
   {
     slug: "minio-microservice",
@@ -131,6 +155,12 @@ export const ecosystemItems: EcosystemItem[] = [
     name: "marketing-microservice",
     kind: "microservice",
     summary: "Campaigns and segmentation engine (internal routing).",
+  },
+  {
+    slug: "prompts-microservice",
+    name: "prompts-microservice",
+    kind: "microservice",
+    summary: "Authenticated prompt CRUD and sharing.",
   },
   {
     slug: "agentic-email-processing-system",
@@ -217,6 +247,18 @@ export const ecosystemItems: EcosystemItem[] = [
     kind: "application",
     summary: "Education portal, lessons, and recordings.",
   },
+  {
+    slug: "school-committee",
+    name: "school-committee",
+    kind: "application",
+    summary: "Czech primary school parent committee platform.",
+  },
+  {
+    slug: "candidate-blueprism",
+    name: "candidate-blueprism",
+    kind: "application",
+    summary: "Blue Prism candidate exercise and process-flow assessment tool.",
+  },
   // —— Orchestration (roadmap) ——
   {
     slug: "runlayer",
@@ -225,6 +267,12 @@ export const ecosystemItems: EcosystemItem[] = [
     status: "future",
     summary:
       "AI agent orchestration: businesses, projects, tasks, workers, and dashboard (in active development).",
+  },
+  {
+    slug: "goalkeeper",
+    name: "goalkeeper",
+    kind: "orchestration",
+    summary: "Telegram-first IPS-governed autonomous development control plane.",
   },
   // —— Hub ——
   {
@@ -239,6 +287,12 @@ export const ecosystemItems: EcosystemItem[] = [
     name: "rehtani",
     kind: "static",
     summary: "Static site — Řehtání Četechovice.",
+  },
+  {
+    slug: "statex-ecosystem",
+    name: "statex-ecosystem",
+    kind: "static",
+    summary: "Public Next.js ecosystem catalog for Statex applications and services.",
   },
   {
     slug: "openclaw",

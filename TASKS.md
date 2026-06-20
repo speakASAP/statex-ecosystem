@@ -8,4 +8,5 @@
 
 ## Done
 
+- [x] 2026-06-20 Synced missing services from `shared/ECOSYSTEM_MAP.md` into `src/data/ecosystem.ts`; `npm run build` passed.
 - [x] Add `BUSINESS.md`, `SYSTEM.md`, `TASKS.md`, `STATE.json` for agent standard.

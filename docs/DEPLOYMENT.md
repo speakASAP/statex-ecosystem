@@ -2,16 +2,16 @@
 
 ## Standards
 
-- [shared/docs/DEPLOY_STANDARD.md](../../shared/docs/DEPLOY_STANDARD.md) — `deploy.sh` structure, nginx-api-routes, registry behavior
-- [shared/docs/CREATE_SERVICE.md](../../shared/docs/CREATE_SERVICE.md) — ecosystem conventions (`.env`, blue/green, nginx-network)
-- [shared/README.md](../../shared/README.md) — port **47xx**: **4710** (blue), **4711** (green); container **3000**
+- [shared/docs/DEPLOY_STANDARD.md](../../shared/docs/DEPLOY_STANDARD.md) — `deploy.sh` structure, service configuration, registry behavior
+- [shared/docs/CREATE_SERVICE.md](../../shared/docs/CREATE_SERVICE.md) — ecosystem conventions (`.env`, Kubernetes deployment patterns)
+- [shared/README.md](../../shared/README.md) — Kubernetes service on standard container port **3000**; exposed via Traefik ingress on standard HTTP/HTTPS ports
 
 ## Ports
 
-| Role | Host port | Variable | Container |
-|------|-----------|----------|-----------|
-| Blue | 4710 | `PORT` | 3000 (`CONTAINER_PORT`) |
-| Green | 4711 | `PORT_GREEN` | 3000 |
+| Environment | Host port | Variable | Container |
+|-------------|-----------|----------|-----------|
+| Kubernetes | N/A (via Traefik) | N/A | 3000 (`CONTAINER_PORT`) |
+| Docker (local) | 4710 | `PORT` | 3000 |
 
 Health: `GET /api/health` inside the container. Traefik Ingress checks this endpoint for route health.
 

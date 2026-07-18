@@ -101,10 +101,11 @@ export const ecosystemItems: EcosystemItem[] = [
     summary: "S3-compatible object storage.",
   },
   {
-    slug: "messenger",
-    name: "messenger",
+    slug: "vault-microservice",
+    name: "vault-microservice",
     kind: "infrastructure",
-    summary: "Matrix messaging and LiveKit A/V.",
+    summary: "HashiCorp Vault secrets runtime (Docker permanent, not K8s).",
+    primaryUrl: "https://vault.alfares.cz",
   },
   // —— E-commerce & ops microservices ——
   {
@@ -124,6 +125,13 @@ export const ecosystemItems: EcosystemItem[] = [
     name: "orders-microservice",
     kind: "microservice",
     summary: "Central order processing.",
+  },
+  {
+    slug: "invoices-microservice",
+    name: "invoices-microservice",
+    kind: "microservice",
+    summary: "Proforma and final tax invoices from order/payment lifecycle.",
+    primaryUrl: "https://invoices.alfares.cz",
   },
   {
     slug: "payments-microservice",
@@ -160,6 +168,13 @@ export const ecosystemItems: EcosystemItem[] = [
     name: "agentic-email-processing-system",
     kind: "microservice",
     summary: "AI email triage and classification.",
+  },
+  {
+    slug: "business-process-control-plane",
+    name: "business-process-control-plane",
+    kind: "microservice",
+    summary: "Process/policy/workflow registry (ClusterIP; Holiday Discount pilot).",
+    status: "future",
   },
   {
     slug: "allegro-service",
@@ -199,16 +214,31 @@ export const ecosystemItems: EcosystemItem[] = [
     summary: "E-commerce for the Czech market.",
   },
   {
+    slug: "chytrakoupe",
+    name: "chytrakoupe",
+    kind: "application",
+    summary: "Czech conversion storefront (ChytraKoupe) on FlipFlop commerce APIs.",
+    primaryUrl: "https://chytrakoupe.alfares.cz",
+  },
+  {
+    slug: "cliplot",
+    name: "cliplot",
+    kind: "application",
+    summary: "Czech e-commerce storefront (Cliplot).",
+    primaryUrl: "https://cliplot.alfares.cz",
+  },
+  {
+    slug: "rent-a-box",
+    name: "rent-a-box",
+    kind: "application",
+    summary: "Self-storage MVP — web + API rental journey.",
+    primaryUrl: "https://rent-a-box.alfares.cz",
+  },
+  {
     slug: "crypto-ai-agent",
     name: "crypto-ai-agent",
     kind: "application",
     summary: "AI-assisted crypto portfolio tooling.",
-  },
-  {
-    slug: "beauty",
-    name: "beauty",
-    kind: "application",
-    summary: "Multi-tenant beauty salon franchise platform.",
   },
   {
     slug: "marathon",
@@ -220,7 +250,8 @@ export const ecosystemItems: EcosystemItem[] = [
     slug: "sgiprealestate",
     name: "sgiprealestate",
     kind: "application",
-    summary: "Real estate agency site (RU / EN / AR).",
+    status: "future",
+    summary: "Real estate agency site (RU / EN / AR) — Non-K8s, no local runtime.",
   },
   {
     slug: "shop-assistant",
@@ -238,7 +269,8 @@ export const ecosystemItems: EcosystemItem[] = [
     slug: "speakasap-portal",
     name: "speakasap-portal",
     kind: "application",
-    summary: "Education portal, lessons, and recordings.",
+    status: "future",
+    summary: "Education portal, lessons, and recordings (legacy speakasap server).",
   },
   {
     slug: "school-committee",
@@ -252,20 +284,35 @@ export const ecosystemItems: EcosystemItem[] = [
     kind: "application",
     summary: "Blue Prism candidate exercise and process-flow assessment tool.",
   },
-  // —— Orchestration (roadmap) ——
+  {
+    slug: "domain-research",
+    name: "domain-research",
+    kind: "application",
+    summary: "Domain suggestion, RDAP availability checks, and watch/notify.",
+    primaryUrl: "https://domain-research.alfares.cz",
+  },
+  {
+    slug: "ecosystem-console",
+    name: "ecosystem-console",
+    kind: "application",
+    status: "future",
+    summary: "Ecosystem console UI (K8s only; no local Github repo).",
+    primaryUrl: "https://ecosystem-console.alfares.cz",
+  },
+  // —— Orchestration ——
   {
     slug: "runlayer",
     name: "runlayer",
     kind: "orchestration",
-    status: "future",
-    summary:
-      "AI agent orchestration: businesses, projects, tasks, workers, and dashboard (in active development).",
+    summary: "AI agent orchestration brain (businesses, projects, tasks, workers).",
+    primaryUrl: "https://runlayer.alfares.cz",
   },
   {
     slug: "goalkeeper",
     name: "goalkeeper",
     kind: "orchestration",
     summary: "Telegram-first IPS-governed autonomous development control plane.",
+    primaryUrl: "https://goalkeeper.alfares.cz",
   },
   // —— Hub ——
   {
@@ -274,18 +321,39 @@ export const ecosystemItems: EcosystemItem[] = [
     kind: "hub",
     summary: "Ecosystem documentation, scripts, and standards (repo, not a public site).",
   },
+  {
+    slug: "k8s-manifests",
+    name: "k8s-manifests",
+    kind: "hub",
+    summary: "Shared Kubernetes manifests SSOT for statex-apps.",
+  },
+  {
+    slug: "vault",
+    name: "vault",
+    kind: "hub",
+    summary: "Vault policies and AppRole bootstrap (not the Vault runtime).",
+  },
+  {
+    slug: "company-evidence-platform-docs",
+    name: "company-evidence-platform-docs",
+    kind: "hub",
+    status: "future",
+    summary: "Product docs for company/supplier verification service (docs-only).",
+  },
   // —— Static / other ——
   {
     slug: "rehtani",
     name: "rehtani",
     kind: "static",
     summary: "Static site — Řehtání Četechovice.",
+    primaryUrl: "https://rehtani.alfares.cz",
   },
   {
     slug: "statex-ecosystem",
     name: "statex-ecosystem",
     kind: "static",
     summary: "Public Next.js ecosystem catalog for Statex applications and services.",
+    primaryUrl: "https://statex-ecosystem.alfares.cz",
   },
 ];
 

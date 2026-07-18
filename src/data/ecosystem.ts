@@ -41,13 +41,6 @@ export const kindLabels: Record<EcosystemKind, string> = {
 export const ecosystemItems: EcosystemItem[] = [
   // —— Infrastructure ——
   {
-    slug: "nginx-microservice",
-    name: "nginx-microservice",
-    kind: "infrastructure",
-    summary:
-      "Reverse proxy, SSL (Let’s Encrypt), blue/green deployment routing.",
-  },
-  {
     slug: "database-server",
     name: "database-server",
     kind: "infrastructure",

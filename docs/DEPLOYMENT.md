@@ -13,15 +13,15 @@
 | Blue | 4710 | `PORT` | 3000 (`CONTAINER_PORT`) |
 | Green | 4711 | `PORT_GREEN` | 3000 |
 
-Health: `GET /api/health` inside the container (and via nginx on the public domain).
+Health: `GET /api/health` inside the container. Traefik Ingress checks this endpoint for route health.
 
-## Production
+## Production (Kubernetes)
 
-1. Copy `.env.example` → `.env`; set `DOMAIN`, `NODE_ENV=production` if you use git pull in `deploy.sh`.
-2. Ensure Docker network `nginx-network` exists (same as nginx-microservice).
-3. From repo root: `./scripts/deploy.sh`
+1. Deploy to Kubernetes: `kubectl apply -f k8s/`
+2. The Ingress rules in `k8s/<service>-ingress.yaml` automatically configure Traefik routing
+3. Services communicate via Kubernetes DNS: `<service-name>.<namespace>.svc.cluster.local`
 
-Register the service in nginx-microservice / service-registry as for other Alfares apps if not auto-created on first deploy.
+No manual service registration needed — Traefik discovers routes from Ingress resources automatically.
 
 ## Local
 

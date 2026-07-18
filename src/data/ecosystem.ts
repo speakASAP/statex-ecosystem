@@ -294,12 +294,6 @@ export const ecosystemItems: EcosystemItem[] = [
     kind: "static",
     summary: "Public Next.js ecosystem catalog for Statex applications and services.",
   },
-  {
-    slug: "openclaw",
-    name: "openclaw",
-    kind: "application",
-    summary: "OpenClaw application (see openclaw/CLAUDE.md in workspace).",
-  },
 ];
 
 export const allKinds: EcosystemKind[] = [

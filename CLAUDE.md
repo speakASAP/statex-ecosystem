@@ -40,7 +40,6 @@ kubectl -n statex-apps exec deployment/statex-ecosystem -- curl -s -X POST http:
 
 ### Key constraints
 - This is NOT the standard Next.js — APIs, conventions, and file structure may differ from training data. Read guides in `node_modules/next/dist/docs/` before writing any code.
-- Never commit or push; follow workspace `.cursor/rules/no-git-commit.mdc`
 
 ### Secrets
 All secrets in Vault at `secret/prod/statex-ecosystem` → ESO → K8s Secret `statex-ecosystem-secret`.

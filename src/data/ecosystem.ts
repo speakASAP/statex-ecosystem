@@ -164,6 +164,20 @@ export const ecosystemItems: EcosystemItem[] = [
     summary: "Authenticated prompt CRUD and sharing.",
   },
   {
+    slug: "growth",
+    name: "growth",
+    kind: "microservice",
+    status: "future",
+    summary: "AI growth experimentation platform — one repository, several containers (core + web).",
+  },
+  {
+    slug: "growth-core",
+    name: "growth-core",
+    kind: "microservice",
+    status: "future",
+    summary: "Growth platform core: immutable experiment decision records (internal, no public ingress by design).",
+  },
+  {
     slug: "agentic-email-processing-system",
     name: "agentic-email-processing-system",
     kind: "microservice",
@@ -299,6 +313,13 @@ export const ecosystemItems: EcosystemItem[] = [
     summary: "Ecosystem console UI (K8s only; no local Github repo).",
     primaryUrl: "https://ecosystem-console.alfares.cz",
   },
+  {
+    slug: "cv-tuning",
+    name: "cv-tuning",
+    kind: "application",
+    status: "future",
+    summary: "CV tailoring platform — master CV to per-position tailored CV with grounding validator, diff review, and voice revision.",
+  },
   // —— Orchestration ——
   {
     slug: "runlayer",
@@ -339,6 +360,12 @@ export const ecosystemItems: EcosystemItem[] = [
     kind: "hub",
     status: "future",
     summary: "Product docs for company/supplier verification service (docs-only).",
+  },
+  {
+    slug: "intent-preservation-system",
+    name: "intent-preservation-system",
+    kind: "hub",
+    summary: "IPS — documentation-first framework for AI-assisted delivery: preserves original project intent, decomposes it into implementation units, generates bounded context for agents, and validates work against upstream goals.",
   },
   // —— Static / other ——
   {

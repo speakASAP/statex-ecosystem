@@ -41,8 +41,8 @@ npm start
 **Production (Kubernetes):**
 
 ```bash
-kubectl apply -f k8s/
-kubectl rollout status deployment/statex-ecosystem -n statex-apps
+./scripts/deploy.sh
+/home/ssf/Documents/Github/shared/scripts/wait-for-rollout.sh -n statex-apps statex-ecosystem
 ```
 
 **Local smoke test** (default bridge network):

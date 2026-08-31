@@ -1,31 +1,28 @@
-# Repository Agent Instructions
+# Agents
 
-Shared rules live here:
+## Required reading
+- `README.md`
+- `SYSTEM.md`
+- `BUSINESS.md`
+- `TASKS.md`
+- `intent-preservation-system/docs/24_onboarding/PROJECT_ADOPTION_STANDARD.md`
+- `intent-preservation-system/scripts/validate_adoption_profile.py`
 
-- Codex profile: `/home/ssf/.codex/AGENTS.md`
-- Cross-agent standard: `/home/ssf/.ai-agent-standards/CROSS_AGENT_AUTOMATION_STANDARD.md`
-- Repository operations: `AGENT_OPERATIONS.md`
+## Authority
+This repository is a low-priority operational catalog app. Its authority is limited to the service map and runtime metadata it directly owns, and it must stay honest about not being a core business application.
 
-Read those first, then follow the repository-specific notes below and the current planning/status files.
+## Intent preservation system
+This repo preserves the system chain by documenting its actual low-priority status and keeping the adoption profile aligned with the IPS standard without inflating the service’s operational importance.
 
+## Safety and operations
+- Keep the repo honest about being a low-priority catalog rather than a reliability-critical domain service.
+- Avoid overclaiming customer impact, revenue ownership, or operational criticality.
+- Prefer precise catalog and metadata updates over broad product claims.
 
-## Repository-Specific Notes
+## Project-specific rules
+- Do not describe this repo as a core business or revenue-critical app.
+- Keep the catalog boundary explicit and limited to ecosystem links and metadata.
+- Maintain a clear distinction between this site and the service repos that own actual runtime workloads.
 
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
-
-## Knowledge Retrieval
-
-Use `docs-rag-microservice` for bounded discovery when it is healthy, then
-verify deployment, security, database, integration and public-contract facts
-against the cited Git source. Git remains authoritative.
-
-Authority and fallback rules:
-`/home/ssf/Documents/Github/shared/docs/DOCUMENTATION_AUTHORITY.md`.
-
-Do not generate tokens in documentation or assume an unconfident/failed RAG
-response means that source documentation does not exist.
-
-## Project docs
-
-- `BUSINESS.md`, `SYSTEM.md`, `TASKS.md`, `STATE.json`
+## Required final report
+The final report must state the repo’s low-priority status, list validation evidence, and note that it serves as an operational catalog rather than a primary product domain authority.

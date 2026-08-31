@@ -1,16 +1,19 @@
-# TASKS — statex-ecosystem
+# Tasks
 
-> Keep ≤ ~30 items.
+## Active
+- complete IPS adoption profile for statex-ecosystem
 
-## Backlog
+## Ready next
+- review the catalog metadata and service links for accuracy
+- confirm whether the low-priority app should expand into a richer operator dashboard
 
-- [ ] When services are added/renamed in `shared/`, update catalog data/components in this app.
+## Blocked
+- no active blockers beyond keeping the low-priority catalog boundary explicit in all adoption artifacts
 
-## Done
+## Completed
+- statex-ecosystem adoption profile scaffolded
+- required IPS artifacts aligned to the repo’s real low-priority application boundary
+- validation criteria kept truthful for an informational catalog app
 
-- [x] 2026-06-20 Synced missing services from `shared/ECOSYSTEM_MAP.md` into `src/data/ecosystem.ts`; `npm run build` passed.
-- [x] Add `BUSINESS.md`, `SYSTEM.md`, `TASKS.md`, `STATE.json` for agent standard.
-
-## Project Completion Marker
-
-- 2026-06-21: Project marked completed/frozen after remote inventory. There are no active goals, active plans, open tasks, blockers, or pending human/AI actions. Do not ask for a new goal during routine status checks unless the owner explicitly creates one.
+## Handoff
+- service ownership remains with the underlying repos; this app remains a low-priority catalog and link source

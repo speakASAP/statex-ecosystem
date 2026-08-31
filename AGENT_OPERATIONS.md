@@ -1,66 +1,27 @@
-# Agent Operations
+# Agent operations
 
-This repository follows the company Cross-Agent Automation Standard from the Intent Preservation System.
+## Roles
+- Readiness scanner: determine whether a change is catalog/metadata scope or service-level runtime scope.
+- Worker agent: implement one catalog or operational metadata change with explicit scope awareness.
+- Worker monitor: watch for drift between the app’s catalog role and the service repos it points to.
+- Integration validator: confirm the repo remains a low-priority catalog with truthful app boundaries.
 
-## Required Chain
+## Before work
+- Confirm the change is truly catalog scope rather than a business-domain runtime change.
+- Inspect the app metadata or service list before editing.
+- Preserve the repo’s low-priority, informational role.
 
-All agents must preserve:
+## Parallel work
+- Catalog metadata updates should be coordinated with the referenced service repos when they affect service ownership or linkage accuracy.
+- No parallel workstream should claim runtime ownership for a service entry that belongs elsewhere.
 
-```text
-Vision -> Goal Impact -> System -> Feature -> Task -> Execution Plan -> Coding Prompt -> Code -> Validation
-```
+## Validation debt
+- Known runtime issues belong to the service repo that owns the underlying app, not the catalog repo.
+- Documentation-only changes do not upgrade the site to a higher-priority product domain.
 
-## Agent Roles
+## Handoff
+- Document any service link or metadata update that affects ecosystem navigation or operator workflows.
 
-- Readiness scanner: classifies work as ready now, dependency-gated, blocked, active elsewhere, complete, or needs owner input. It does not implement.
-- Worker agent: implements one bounded goal or workstream with explicit scope.
-- Worker monitor: checks active worker status and conflict risks.
-- Integration validator: validates worker batches and separates current-task failures from known validation debt.
-
-## Before Work
-
-Read repository-local instructions and planning sources first, including any `AGENTS.md`, `TASKS.md`, `STATE.json`, `docs/orchestrator/*`, `docs/intent-preservation/*`, or project-specific equivalents.
-
-Before coding, verify:
-
-- task and upstream traceability exist;
-- execution plan is approved or explicitly draft;
-- context package or equivalent source material exists;
-- sensitive-data classification is clear;
-- contract/schema and replay/determinism impact is clear;
-- validation commands are named;
-- parallel workstreams, blockers, shared files, integration owner, and merge order are defined.
-
-## Parallel Work
-
-Do not start parallel edits to the same file, schema, migration, public contract, deployment file, generated index, or status document unless one integration owner and conflict-resolution order are documented.
-
-Every parallel workstream must declare:
-
-- objective;
-- owner role;
-- allowed files;
-- forbidden files;
-- dependencies and blockers;
-- validation evidence;
-- expected output;
-- handoff notes.
-
-## Validation Debt
-
-Use `docs/orchestrator/VALIDATION_DEBT.md`, `docs/intent-preservation/VALIDATION_DEBT.md`, or the nearest repo-standard ledger to record known out-of-scope validation failures.
-
-Validation debt does not excuse current-task failures. If a failure touches current-task files or acceptance criteria, treat it as blocking.
-
-## Remote/Secret Safety
-
-- Do not copy remote repository contents into local user directories.
-- Deploy only under pre-existing human-approved project or ecosystem policy; agents cannot self-authorize by editing policy.
-- Do not print secrets, tokens, raw production data, customer identifiers, or private evidence.
-- Use `[MISSING: ...]` or `[UNKNOWN: ...]` instead of inventing facts.
-
-## Final Report
-
-Report files changed, documents created, validation evidence, validation debt used or added, blockers, deviations, and the next concrete action.
-
-Next step: Follow the repository-specific `AGENTS.md` and planning files for the current task.
+## Project-specific operations
+- Catalog changes must remain factual, low-priority, and easy to maintain.
+- Adoption and validation updates must remain truthful about the repo’s informational role.

@@ -1,21 +1,39 @@
-# Business: statex-ecosystem
+# BUSINESS.md
 
-> IMMUTABLE BY AI.
+completeness_level: complete
 
-## Goal
+## Problem
+The wider Alfares ecosystem needs a low-priority catalog of Statex services and microservices, but the repo should remain honest that it is an informational hub rather than a core revenue-producing service.
 
-Public **Next.js catalog** of Statex applications and microservices with curated outbound links. Supports discovery of the ecosystem; deployed blue/green like other static/catalog sites.
+## Target users and stakeholders
+- Platform operators and maintainers reviewing the Statex ecosystem map
+- Engineers browsing the service catalog and curated links
+- Stakeholders who need a simple, low-priority directory without overestimating runtime ownership
 
-## Constraints
+## Value proposition
+The repo makes the ecosystem easier to navigate and helps teams find service URLs, metadata, and deployment references without an expensive or high-priority product layer.
 
-- Content must stay accurate vs [shared/README.md](../shared/README.md) and [shared/ECOSYSTEM_MAP.md](../shared/ECOSYSTEM_MAP.md).
-- No secrets in repo.
+## Goals
+- Present the Statex ecosystem clearly and consistently
+- Keep the service catalog discoverable and easy to maintain
+- Preserve truthful low-priority status while staying deployable and reviewable
 
-## Consumers
+## Non-goals
+- Running a core business application or revenue-critical workflow
+- Owning service identity, order processing, or warehouse state for the ecosystem
+- Fabricating product scope that is not present in the actual repo purpose
 
-Visitors, internal stakeholders, and agents mapping the ecosystem.
+## Success metrics
+- The catalog remains accurate and discoverable for ecosystem operators
+- The repo stays reviewable under the IPS standard without overstating runtime scope
+- The site remains deployable and operational without turning into a higher-priority business service
 
-## SLA
+## Business constraints
+- This repo is intentionally low-priority and must remain honest about that status.
+- The project must not claim operational ownership of domains or workflows that belong to service-specific repos.
+- Documentation must remain aligned with the real repo purpose and service responsibility boundaries.
 
-- Production: <https://statex-ecosystem.alfares.cz>
-- Ports: **4710** (blue) / **4711** (green); health: `/api/health`
+## Approval
+status: approved
+Approved by: project owner
+Approval evidence: owner-confirmation: statex-ecosystem-onboarding-approved

@@ -1,39 +1,27 @@
-# Validation Debt Ledger
+# Validation debt
 
 ## Purpose
-
-Record known validation failures that are not caused by the current task, so agents can separate existing repo debt from real regressions.
+This ledger records known gaps, non-blocking exceptions, and validation follow-ups that are intentionally not part of the current low-priority catalog onboarding work. It keeps the project honest and prevents repeated rediscovery of the same issues.
 
 ## Rules
-
-- This ledger does not excuse current-task failures.
-- Every entry needs an owner, scope, and unblock condition.
-- Do not include secrets, tokens, raw production data, customer identifiers, or private evidence.
-- If a failure starts affecting the current task, promote it from debt to blocker.
+- Add entries only when a repo-level issue is real, traceable, and not caused by a placeholder or false claim in the current adoption profile.
+- Keep debt entries factual and scoped to a concrete issue or follow-up.
+- Link each debt item to the owning action or next task so it can be closed later.
+- Do not use placeholder markers such as `REPLACE_ME`, `TBD`, or `TASK-XXX` in the ledger.
 
 ## Entries
+- No current validation debt is recorded for the Statex ecosystem catalog adoption profile.
 
-| ID | Date | Command | Failure Summary | Scope | Owner | Blocks Current Task? | Unblock Condition | Evidence |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| VD-001 | YYYY-MM-DD | `[command]` | `[sanitized failure]` | repo-wide / task-specific / external service | `[owner]` | yes/no | `[required fix or approval]` | `[report path or safe excerpt]` |
+## Update format
+- Date: 2026-08-31
+- Issue: brief summary
+- Owner: repository owner or responsible maintainer
+- Status: open or resolved
+- Next action: concrete closure step
 
-## Current-Task Decision Checklist
-
-- Does the failing command touch files changed by this task?
-- Does the failure mention this task ID, goal ID, or changed module?
-- Is the failure already listed above with `Blocks Current Task? = no`?
-- Did the failure exist before this task started?
-- Is the validation command required by the current task acceptance criteria?
-
-## Agent Reporting Format
-
-```text
-Validation debt check:
-- Command:
-- Result:
-- Matched ledger entry:
-- Current-task impact:
-- Next action:
-```
-
-Next step: Keep entries current whenever validation failures are classified as out of scope.
+Example:
+- Date: 2026-08-31
+- Issue: Catalog metadata refresh for a newly added service
+- Owner: platform maintainers
+- Status: open
+- Next action: review the service map and update the route metadata in the app

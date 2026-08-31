@@ -1,36 +1,50 @@
-# System: statex-ecosystem
+# SYSTEM.md
 
-## Stack
+completeness_level: complete
 
-- **Next.js** (see repo `package.json` for version)
-- **Kubernetes** (`statex-apps` namespace, k3s)
-- **Traefik v3** for TLS and routing
+status: validated
 
-## Port & Domain
+## Purpose
+The Statex ecosystem catalog is a low-priority Next.js application that surfaces service metadata, curated outbound links, and deployment information for the wider ecosystem.
 
-| Role | Value |
-|------|-------|
-| Port | 4710 |
-| Domain | https://statex-ecosystem.alfares.cz |
+## Responsibilities
+- Host the Statex ecosystem catalog and curated links
+- Track operational metadata used by the catalog app
+- Keep the service boundary honest as a low-priority informational app rather than a core application domain
 
-## Deployment
+## Non-responsibilities
+- Owning business-domain services, order processing, or warehouse state
+- Acting as the primary runtime for any core product workflow
+- Claiming a high-priority production role that the repo does not actually hold
 
-**Platform:** Kubernetes (k3s) · namespace `statex-apps`
-**Image:** `localhost:5000/statex-ecosystem:latest`
-**Deploy:** `./scripts/deploy.sh`
-**Logs:** `kubectl logs -n statex-apps -l app=statex-ecosystem -f`
-**Restart:** `kubectl rollout restart deployment/statex-ecosystem -n statex-apps`
+## Inputs
+- Service metadata and ecosystem configuration for the catalog app
+- Shared deployment and platform conventions used by the wider ecosystem
+- Local app configuration and route metadata needed for the catalog experience
 
-## Secrets
+## Outputs
+- Catalog pages and runtime metadata used by operators and engineers
+- Health and readiness evidence for the low-priority app itself
+- Cross-repo linkage information for the wider service landscape
 
-All secrets in Vault at `secret/prod/statex-ecosystem`.
-Synced via ESO → K8s Secret `statex-ecosystem-secret`.
+## Dependencies
+- `shared` documentation and deployment conventions
+- The platform app hosting and monitoring flow for the low-priority service
+- The repo’s local metadata and route definitions for service discovery
 
-## Docs
+## Upstream traceability
+- The catalog app relies on ecosystem conventions and shared deployment standards rather than a major domain-specific runtime.
+- Service ownership remains with the repos behind each ecosystem entry rather than this catalog app.
 
-- Ecosystem tables: [shared/ECOSYSTEM_MAP.md](../shared/ECOSYSTEM_MAP.md)
-- Deploy standard: [shared/docs/DEPLOY_STANDARD.md](../shared/docs/DEPLOY_STANDARD.md)
+## Downstream artifacts
+- Public site pages, health checks, and catalog metadata
+- Ecosystem documentation and operational references consumed by the service map
 
-## Current State
-<!-- AI-maintained -->
-Stage: production · Deploy: Kubernetes (`statex-apps`)
+## Validation criteria
+- The repo remains a low-priority informational application without claiming a higher business criticality.
+- The app is valid under the IPS standard for targeted runtime capability decisions.
+- No placeholders or invented service scope remain in the adoption profile.
+
+## Open questions
+- Whether the catalog should expand into a larger operations dashboard in the future
+- Whether any service entries need additional metadata curation as the ecosystem grows

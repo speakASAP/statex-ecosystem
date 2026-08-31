@@ -1,78 +1,50 @@
 # statex-ecosystem
 
-Next.js catalog of Statex applications and microservices with curated outbound links.
+## Status
+Status: active
+Lifecycle: implementation
+Repository focus: low-priority Next.js ecosystem catalog for Statex applications and microservices with curated outbound links and deployment metadata.
 
-**Production URL:** <https://statex-ecosystem.alfares.cz>
+## Documentation authority
+This repository keeps project intent and onboarding evidence in the repo itself and follows the shared IPS standard in `intent-preservation-system` for cross-repository traceability.
 
-## Ports (47xx range)
+## Capabilities
+- auth: not-applicable — The site does not own a separate auth service or user identity boundary.
+- postgres: not-applicable — This repo does not maintain a dedicated database runtime for application state.
+- redis: not-applicable — No Redis cache service is required for the catalog site.
+- logging: required — Structured logs and operational evidence are part of the runtime service flow.
+- notifications: not-applicable — The site does not own service notifications or user messaging flows.
+- ai: not-applicable — The site does not own an AI reasoning runtime.
+- payments: not-applicable — Payment processing is intentionally not part of the catalog repo.
+- catalog: not-applicable — The ecosystem catalog is informational and not the authoritative product catalog software for the business domains.
+- orders: not-applicable — This repo does not own order lifecycle processing.
+- warehouse: not-applicable — Warehouse authority is outside the catalog repo’s boundary.
+- invoices: not-applicable — Invoice processing does not live in this repo.
+- object-storage: not-applicable — The site does not operate object storage.
+- event-bus: not-applicable — No event-bus producer or consumer contract is owned here.
+- docs-rag: required — The repo should remain discoverable through the shared docs-RAG pipeline and platform indexing conventions.
+- monitoring: required — The service exposes health and readiness evidence through the platform monitoring boundary.
+- backups: not-applicable — This repo does not maintain a backup runtime for business data.
 
-| Deployment | Host port | Env variable | Container port |
-|------------|-----------|--------------|------------------|
-| Blue | **4710** | `PORT` | `CONTAINER_PORT` (default **3000**) |
-| Green | **4711** | `PORT_GREEN` | **3000** |
-
-Documented in [shared/README.md](../shared/README.md) (Port Configuration Reference). **4710–4711** follow **rehtani** (4700–4701) in the same **47xx** static/catalog block.
-
-## Configuration
-
-- Copy [`.env.example`](.env.example) to `.env` (never commit `.env`).
-- Required keys: `DOMAIN`, `SERVICE_NAME`, `PORT`, `PORT_GREEN`, `CONTAINER_PORT`.
-- See [shared/docs/DEPLOY_STANDARD.md](../shared/docs/DEPLOY_STANDARD.md) and [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+## Interfaces
+- Repository: https://github.com/speakASAP/statex-ecosystem
+- Standard: https://github.com/speakASAP/intent-preservation-system
+- Primary operator boundary: low-priority ecosystem catalog site for Statex services and links.
+- Runtime health contract: GET /api/health when the app is running.
 
 ## Development
+- Source of truth lives in the repository-local Next.js app and deployment metadata.
+- Runtime changes should stay aligned to the project’s actual catalog purpose rather than broad product claims.
+- Validation runs from the repo root with the central IPS validator and service-local checks.
 
-```bash
-npm install
-npm run dev
-```
+## Configuration
+- Project configuration is stored in the repository and environment files used by the app runtime.
+- Secrets remain outside the repo and are injected via the platform secret flow.
 
-- App: <http://localhost:3000>
-- Health: <http://localhost:3000/api/health>
+## Deployment
+- This repository follows the platform deployment and validation conventions for the low-priority ecosystem catalog service.
+- Deploys are gated by the standard service workflow for the app and the central IPS validation pass.
 
-## Build
-
-```bash
-npm run build
-npm start
-```
-
-## Docker
-
-**Production (Kubernetes):**
-
-```bash
-./scripts/deploy.sh
-/home/ssf/Documents/Github/shared/scripts/wait-for-rollout.sh -n statex-apps statex-ecosystem
-```
-
-**Local smoke test** (default bridge network):
-
-```bash
-docker compose up --build
-```
-
-→ <http://localhost:4710> (host `PORT` → container `3000`).
-
-## Deploy script
-
-From repository root:
-
-```bash
-chmod +x scripts/deploy.sh   # once
-./scripts/deploy.sh
-```
-
-Kubernetes native rollout via Traefik Ingress Controller. Routes are configured in `k8s/ingress.yaml`.
-
-## Data
-
-Service names and metadata are curated in `src/data/ecosystem.ts`.
-
-Public URLs are resolved at runtime from `.env` overrides using the slug pattern: `<SLUG_UPPERCASE_WITH_UNDERSCORES>_PUBLIC_URL` (example: `AGENTIC_EMAIL_PROCESSING_SYSTEM_PUBLIC_URL`).
-
-When you add a service in `shared/README.md` or `shared/ECOSYSTEM_MAP.md`, update `src/data/ecosystem.ts`. Do not hardcode public URLs there.
-
-
-## Stack
-
-Next.js 16 (App Router), TypeScript, Tailwind CSS v4, `output: "standalone"` for Docker.
+## Health and observability
+- The application exposes `/api/health` and should remain truthful about service readiness.
+- Operational evidence is captured in local validation and the repository state file.

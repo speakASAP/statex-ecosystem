@@ -1,11 +1,17 @@
 # Tasks
 
-## Active- complete IPS adoption profile for statex-ecosystem
+## Active
 
-## Ready Next- review the catalog metadata and service links for accuracy
+- complete IPS adoption profile for statex-ecosystem
+
+## Ready Next
+
+- review the catalog metadata and service links for accuracy
 - confirm whether the low-priority app should expand into a richer operator dashboard
 
-## Blocked- no active blockers beyond keeping the low-priority catalog boundary explicit in all adoption artifacts
+## Blocked
+
+- no active blockers beyond keeping the low-priority catalog boundary explicit in all adoption artifacts
 
 ## Completed
 - statex-ecosystem adoption profile scaffolded

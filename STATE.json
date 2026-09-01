@@ -1,20 +1,4 @@
 {
-  "schemaVersion": 1,
-  "project": "statex-ecosystem",
-  "lifecycle": "implementation",
-  "health": "active",
-  "activeTask": "bootstrap-service",
-  "lastUpdated": "2026-08-31T00:00:00Z",
-  "deployment": {
-    "status": "deployed",
-    "lastUpdated": "2026-08-31T00:00:00Z"
-  },
-  "blockers": [
-    "The repo must remain honest about being a low-priority informational app rather than a core business runtime."
-  ],
-  "followUps": [
-    "Review whether the catalog should remain informational or evolve into a richer operator dashboard in a future milestone."
-  ],
   "schema_version": "1.0",
   "repository": "statex-ecosystem",
   "service": {

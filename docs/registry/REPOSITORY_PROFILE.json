@@ -9,8 +9,9 @@
   },
   "collectable_paths": [
     "AGENTS.md",
-    "TASKS.md",
     "STATE.json",
+    "TASKS.md",
+    "docs/11_tasks/TASK-001-bootstrap-service.md",
     "docs/registry/ARTIFACT_INDEX.json",
     "docs/registry/REPOSITORY_PROFILE.json"
   ],

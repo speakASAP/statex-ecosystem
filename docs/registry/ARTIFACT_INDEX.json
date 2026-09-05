@@ -1,8 +1,18 @@
 {
   "schema_version": "1.0",
   "repository": "statex-ecosystem",
-  "generated_at": "2026-08-31T18:25:00Z",
-  "artifacts": [],
+  "generated_at": "2026-09-05T00:00:00Z",
+  "artifacts": [
+    {
+      "id": "TASK-001",
+      "type": "task",
+      "status": "validated",
+      "title": "Complete IPS adoption profile for statex-ecosystem",
+      "path": "docs/11_tasks/TASK-001-bootstrap-service.md",
+      "parent_ids": [],
+      "updated_at": "2026-09-05T00:00:00Z"
+    }
+  ],
   "warnings": [
     "MISSING_RUNLAYER_PROJECT_MAPPING: RunLayer mapping is not yet verified for statex-ecosystem."
   ]

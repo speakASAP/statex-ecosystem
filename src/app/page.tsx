@@ -15,13 +15,14 @@ export default async function Home() {
             Ecosystem catalog
           </h1>
           <p className="max-w-2xl text-lg text-zinc-300">
-            Applications and microservices you can explore or license. Pick a
-            category, then open the live site or API where available.
+            Top is commercial potential. Other tabs are types — a service can
+            belong to several. Open is a live HTML UI. API-only services link
+            to health or docs. Internal runtimes are not published on the
+            internet.
           </p>
           <p className="mt-4 text-sm text-zinc-500">
-            Canonical list: <code className="text-zinc-400">shared/README.md</code>{" "}
-            and <code className="text-zinc-400">shared/ECOSYSTEM_MAP.md</code> in
-            the Statex workspace.
+            Canonical inventory: <code className="text-zinc-400">shared/ECOSYSTEM_MAP.md</code>.
+            Catalog URLs are only hosts that currently respond.
           </p>
         </div>
       </header>

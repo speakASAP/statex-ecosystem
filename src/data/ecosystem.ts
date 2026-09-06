@@ -1,9 +1,12 @@
 /**
  * Curated catalog aligned with shared/README.md and shared/ECOSYSTEM_MAP.md.
- * When you add a service there, update this file (no auto-parse in v1).
+ * Public URLs are only those verified live (HTML 200 for Open, JSON health where listed).
+ * Do not list Traefik 404 hosts such as vault.alfares.cz.
  */
 
+/** top = commercial potential, not a runtime type. Other kinds are types; an item can have several. */
 export type EcosystemKind =
+  | "top"
   | "application"
   | "microservice"
   | "infrastructure"
@@ -14,6 +17,8 @@ export type EcosystemKind =
 /** live = publicly promoted; future = roadmap / not fully productized yet */
 export type ServiceStatus = "live" | "future";
 
+export type AccessKind = "ui" | "api" | "internal" | "docs";
+
 export interface EcosystemLink {
   label: string;
   href: string;
@@ -22,14 +27,22 @@ export interface EcosystemLink {
 export interface EcosystemItem {
   slug: string;
   name: string;
-  kind: EcosystemKind;
+  kinds: EcosystemKind[];
   summary: string;
   primaryUrl?: string;
+  apiUrl?: string;
+  healthUrl?: string;
+  githubUrl?: string;
+  domain?: string;
+  ports?: string;
+  access: AccessKind;
+  note?: string;
   links?: EcosystemLink[];
   status?: ServiceStatus;
 }
 
 export const kindLabels: Record<EcosystemKind, string> = {
+  top: "Top",
   infrastructure: "Infrastructure",
   microservice: "Microservices",
   application: "Applications",
@@ -38,362 +51,638 @@ export const kindLabels: Record<EcosystemKind, string> = {
   static: "Static sites",
 };
 
+export const accessLabels: Record<AccessKind, string> = {
+  ui: "Public UI",
+  api: "Public API",
+  internal: "Internal",
+  docs: "Docs / repo",
+};
+
+function gh(repo: string): string {
+  return `https://github.com/speakASAP/${repo}`;
+}
+
+function entry(
+  item: Omit<EcosystemItem, "links"> & { links?: EcosystemLink[] },
+): EcosystemItem {
+  const links: EcosystemLink[] = [...(item.links ?? [])];
+  if (item.apiUrl && item.apiUrl !== item.primaryUrl) {
+    links.push({ label: "API", href: item.apiUrl });
+  }
+  if (item.healthUrl) {
+    links.push({ label: "Health", href: item.healthUrl });
+  }
+  if (item.githubUrl) {
+    links.push({ label: "GitHub", href: item.githubUrl });
+  }
+  return { ...item, links };
+}
+
 export const ecosystemItems: EcosystemItem[] = [
-  // —— Infrastructure ——
-  {
+  entry({
     slug: "database-server",
     name: "database-server",
-    kind: "infrastructure",
-    summary: "Shared PostgreSQL and Redis for the ecosystem.",
-  },
-  {
+    kinds: ["infrastructure"],
+    summary: "Shared PostgreSQL and Redis. Admin UI is the public surface; databases stay on the private network.",
+    primaryUrl: "https://database-server.alfares.cz",
+    healthUrl: "https://database-server.alfares.cz/health",
+    githubUrl: gh("database-server"),
+    domain: "database-server.alfares.cz",
+    ports: "5432 / 6379 / UI 3390",
+    access: "ui",
+  }),
+  entry({
     slug: "auth-microservice",
     name: "auth-microservice",
-    kind: "infrastructure",
-    summary: "JWT authentication and user management.",
-  },
-  {
+    kinds: ["top", "microservice", "infrastructure"],
+    summary: "JWT authentication, hosted login, and user management.",
+    primaryUrl: "https://auth.alfares.cz",
+    healthUrl: "https://auth.alfares.cz/health",
+    githubUrl: gh("auth-microservice"),
+    domain: "auth.alfares.cz",
+    ports: "3370 / 3372",
+    access: "ui",
+  }),
+  entry({
     slug: "logging-microservice",
     name: "logging-microservice",
-    kind: "infrastructure",
+    kinds: ["microservice", "infrastructure"],
     summary: "Centralized structured logging with timestamps and duration.",
-  },
-  {
+    primaryUrl: "https://logging.alfares.cz",
+    healthUrl: "https://logging.alfares.cz/health",
+    githubUrl: gh("logging-microservice"),
+    domain: "logging.alfares.cz",
+    ports: "3367 API / 3378 UI",
+    access: "ui",
+  }),
+  entry({
     slug: "monitoring-microservice",
     name: "monitoring-microservice",
-    kind: "infrastructure",
+    kinds: ["microservice", "infrastructure"],
     summary: "Observability platform for metrics, dashboards, and runtime health.",
-  },
-  {
+    primaryUrl: "https://monitoring.alfares.cz",
+    healthUrl: "https://monitoring.alfares.cz/health",
+    githubUrl: gh("monitoring-microservice"),
+    domain: "monitoring.alfares.cz",
+    ports: "3395 / 3396",
+    access: "ui",
+  }),
+  entry({
     slug: "backups-microservice",
     name: "backups-microservice",
-    kind: "infrastructure",
+    kinds: ["microservice", "infrastructure"],
     summary: "Centralized backup management for databases, object storage, and Kubernetes resources.",
-  },
-  {
+    primaryUrl: "https://backups.alfares.cz",
+    healthUrl: "https://backups.alfares.cz/health",
+    githubUrl: gh("backups-microservice"),
+    domain: "backups.alfares.cz",
+    ports: "3398",
+    access: "ui",
+  }),
+  entry({
     slug: "docs-rag-microservice",
     name: "docs-rag-microservice",
-    kind: "infrastructure",
-    summary: "Documentation RAG for semantic search over ecosystem knowledge.",
-  },
-  {
+    kinds: ["top", "microservice", "infrastructure"],
+    summary: "Documentation RAG for semantic search over ecosystem knowledge. Agent/MCP API, no HTML UI at /.",
+    healthUrl: "https://docs-rag.alfares.cz/health",
+    githubUrl: gh("docs-rag-microservice"),
+    domain: "docs-rag.alfares.cz",
+    ports: "3397",
+    access: "api",
+    note: "GET / is 404 by design. Use /health or the docs-rag MCP.",
+  }),
+  entry({
     slug: "notifications-microservice",
     name: "notifications-microservice",
-    kind: "infrastructure",
-    summary: "Email, Telegram, WhatsApp notifications.",
-  },
-  {
+    kinds: ["top", "microservice", "infrastructure"],
+    summary: "Email, Telegram, and WhatsApp notifications.",
+    primaryUrl: "https://notifications.alfares.cz",
+    healthUrl: "https://notifications.alfares.cz/health",
+    githubUrl: gh("notifications-microservice"),
+    domain: "notifications.alfares.cz",
+    ports: "3368",
+    access: "ui",
+  }),
+  entry({
     slug: "ai-microservice",
     name: "ai-microservice",
-    kind: "infrastructure",
-    summary: "LLM inference, NLP, ASR, Document AI.",
-  },
-  {
+    kinds: ["top", "microservice", "infrastructure"],
+    summary: "LLM inference, NLP, ASR, and Document AI. Public API only.",
+    healthUrl: "https://ai.alfares.cz/health",
+    githubUrl: gh("ai-microservice"),
+    domain: "ai.alfares.cz",
+    ports: "3380",
+    access: "api",
+    note: "GET / is 404. Service health is at /health.",
+  }),
+  entry({
     slug: "ai-microservice-ollama",
     name: "ai-microservice-ollama",
-    kind: "infrastructure",
-    summary: "Local Ollama runtime for ecosystem-hosted LLM workloads.",
-  },
-  {
+    kinds: ["infrastructure"],
+    summary: "Host Docker Ollama runtime for RAG embeddings and local LLM workloads. Not on public ingress.",
+    ports: "11435 (Docker)",
+    access: "internal",
+    note: "No public hostname. Reached from cluster/host only.",
+  }),
+  entry({
     slug: "minio-microservice",
     name: "minio-microservice",
-    kind: "infrastructure",
-    summary: "S3-compatible object storage.",
-  },
-  {
+    kinds: ["microservice", "infrastructure"],
+    summary: "S3-compatible object storage. Browser console is on storage.alfares.cz; minio.alfares.cz is the S3 API.",
+    primaryUrl: "https://storage.alfares.cz",
+    githubUrl: gh("minio"),
+    domain: "storage.alfares.cz",
+    ports: "9000 API / 9001 console",
+    access: "ui",
+    links: [{ label: "S3 API", href: "https://minio.alfares.cz" }],
+  }),
+  entry({
     slug: "vault-microservice",
     name: "vault-microservice",
-    kind: "infrastructure",
-    summary: "HashiCorp Vault secrets runtime (Docker permanent, not K8s).",
-    primaryUrl: "https://vault.alfares.cz",
-  },
-  {
+    kinds: ["microservice", "infrastructure"],
+    summary: "HashiCorp Vault secrets runtime. Docker on the host, not Kubernetes.",
+    githubUrl: gh("vault-microservice"),
+    domain: "localhost:8200",
+    ports: "8200",
+    access: "internal",
+    note: "UI is http://127.0.0.1:8200/ui on the host. vault.alfares.cz has no Traefik route (404) and must stay that way — do not publish the secrets UI.",
+  }),
+  entry({
     slug: "screencast-recorder",
     name: "screencast-recorder",
-    kind: "infrastructure",
-    summary:
-      "Screencast capture control plane + operator UI. Recording agents run as host systemd user services; sessions go to a private MinIO bucket.",
-    primaryUrl: "https://screencast.alfares.cz",
-  },
-  // —— E-commerce & ops microservices ——
-  {
+    kinds: ["infrastructure"],
+    status: "future",
+    summary: "Screencast capture control plane and operator UI. Agents run as host systemd user services.",
+    githubUrl: gh("screencast-recorder"),
+    domain: "screencast.alfares.cz",
+    ports: "3391",
+    access: "internal",
+    note: "No live ingress or Deployment. screencast.alfares.cz currently 404s.",
+  }),
+  entry({
     slug: "catalog-microservice",
     name: "catalog-microservice",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "Product catalog — source of truth for listings.",
-  },
-  {
+    primaryUrl: "https://catalog.alfares.cz",
+    healthUrl: "https://catalog.alfares.cz/health",
+    githubUrl: gh("catalog-microservice"),
+    domain: "catalog.alfares.cz",
+    ports: "3200",
+    access: "ui",
+  }),
+  entry({
     slug: "warehouse-microservice",
     name: "warehouse-microservice",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "Stock and inventory management.",
-  },
-  {
+    primaryUrl: "https://warehouse.alfares.cz",
+    githubUrl: gh("warehouse-microservice"),
+    domain: "warehouse.alfares.cz",
+    ports: "3201",
+    access: "ui",
+  }),
+  entry({
     slug: "orders-microservice",
     name: "orders-microservice",
-    kind: "microservice",
-    summary: "Central order processing.",
-  },
-  {
+    kinds: ["top", "microservice"],
+    summary: "Central order processing and product list pricing.",
+    primaryUrl: "https://orders.alfares.cz",
+    healthUrl: "https://orders.alfares.cz/health",
+    githubUrl: gh("orders-microservice"),
+    domain: "orders.alfares.cz",
+    ports: "3203",
+    access: "ui",
+  }),
+  entry({
     slug: "invoices-microservice",
     name: "invoices-microservice",
-    kind: "microservice",
-    summary: "Proforma and final tax invoices from order/payment lifecycle.",
-    primaryUrl: "https://invoices.alfares.cz",
-  },
-  {
+    kinds: ["top", "microservice"],
+    summary: "Proforma and final tax invoices from the order/payment lifecycle. API and tokenized documents, no public homepage.",
+    healthUrl: "https://invoices.alfares.cz/health",
+    githubUrl: gh("invoices-microservice"),
+    domain: "invoices.alfares.cz",
+    ports: "3204",
+    access: "api",
+    note: "GET / is 404. Invoice HTML is served per-document with a download token.",
+  }),
+  entry({
     slug: "payments-microservice",
     name: "payments-microservice",
-    kind: "microservice",
-    summary: "PayPal, Stripe, PayU, ComGate, Fio Banka.",
-  },
-  {
+    kinds: ["top", "microservice"],
+    summary: "PayPal, Stripe, PayU, ComGate, and Fio Banka capture.",
+    primaryUrl: "https://payments.alfares.cz",
+    healthUrl: "https://payments.alfares.cz/health",
+    githubUrl: gh("payments-microservice"),
+    domain: "payments.alfares.cz",
+    ports: "3468",
+    access: "ui",
+  }),
+  entry({
     slug: "suppliers-microservice",
     name: "suppliers-microservice",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "Supplier API imports and feeds.",
-  },
-  {
+    primaryUrl: "https://suppliers.alfares.cz",
+    githubUrl: gh("suppliers-microservice"),
+    domain: "suppliers.alfares.cz",
+    ports: "3202",
+    access: "ui",
+  }),
+  entry({
     slug: "leads-microservice",
     name: "leads-microservice",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "Lead intake and CRM-oriented workflows.",
-  },
-  {
+    primaryUrl: "https://leads.alfares.cz",
+    healthUrl: "https://leads.alfares.cz/health",
+    githubUrl: gh("leads-microservice"),
+    domain: "leads.alfares.cz",
+    ports: "4400 / 4401",
+    access: "ui",
+  }),
+  entry({
     slug: "marketing-microservice",
     name: "marketing-microservice",
-    kind: "microservice",
-    summary: "Campaigns and segmentation engine (internal routing).",
-  },
-  {
+    kinds: ["top", "microservice"],
+    summary: "Campaigns and segmentation engine.",
+    primaryUrl: "https://marketing.alfares.cz",
+    healthUrl: "https://marketing.alfares.cz/health",
+    githubUrl: gh("marketing-microservice"),
+    domain: "marketing.alfares.cz",
+    ports: "4600 / 4601",
+    access: "ui",
+  }),
+  entry({
     slug: "prompts-microservice",
     name: "prompts-microservice",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "Authenticated prompt CRUD and sharing.",
-  },
-  {
+    primaryUrl: "https://prompts.alfares.cz",
+    healthUrl: "https://prompts.alfares.cz/health",
+    githubUrl: gh("prompts"),
+    domain: "prompts.alfares.cz",
+    ports: "4750 / 4751",
+    access: "ui",
+  }),
+  entry({
     slug: "growth",
     name: "growth",
-    kind: "microservice",
-    status: "future",
-    summary: "AI growth experimentation platform — one repository, several containers (core + web).",
-  },
-  {
+    kinds: ["top", "microservice"],
+    summary: "AI growth experimentation platform (core + web in one repo).",
+    githubUrl: gh("growth"),
+    domain: "bazos.alfares.cz/l",
+    ports: "3376 core / 3377 web",
+    access: "ui",
+    note: "growth.alfares.cz has no ingress. Public landings are experiment URLs on bazos.alfares.cz/l (cookie-scoped to Bazos).",
+    links: [{ label: "Bazos host", href: "https://bazos.alfares.cz" }],
+  }),
+  entry({
     slug: "growth-core",
     name: "growth-core",
-    kind: "microservice",
-    status: "future",
-    summary: "Growth platform core: immutable experiment decision records (internal, no public ingress by design).",
-  },
-  {
+    kinds: ["microservice"],
+    summary: "Immutable experiment decision records. ClusterIP only; no public ingress by design.",
+    githubUrl: gh("growth"),
+    ports: "3376",
+    access: "internal",
+    note: "Owner screen is reached with kubectl port-forward, not a public host.",
+  }),
+  entry({
     slug: "agentic-email-processing-system",
     name: "agentic-email-processing-system",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "AI email triage and classification.",
-  },
-  {
+    primaryUrl: "https://aeps.alfares.cz",
+    healthUrl: "https://aeps.alfares.cz/health",
+    githubUrl: gh("agentic-email-processing-system"),
+    domain: "aeps.alfares.cz",
+    ports: "3374",
+    access: "ui",
+  }),
+  entry({
     slug: "business-process-control-plane",
     name: "business-process-control-plane",
-    kind: "microservice",
-    summary: "Process/policy/workflow registry (ClusterIP; Holiday Discount pilot).",
+    kinds: ["microservice"],
     status: "future",
-  },
-  {
+    summary: "Process, policy, and workflow registry (Holiday Discount pilot). ClusterIP only.",
+    githubUrl: gh("business-process-control-plane"),
+    ports: "3375",
+    access: "internal",
+    note: "No public ingress yet.",
+  }),
+  entry({
     slug: "allegro-service",
     name: "allegro-service",
-    kind: "microservice",
-    summary: "Allegro marketplace integration.",
-  },
-  {
+    kinds: ["top", "microservice"],
+    summary: "Allegro marketplace integration and seller UI.",
+    primaryUrl: "https://allegro.alfares.cz",
+    healthUrl: "https://allegro.alfares.cz/health",
+    githubUrl: gh("allegro"),
+    domain: "allegro.alfares.cz",
+    access: "ui",
+  }),
+  entry({
     slug: "aukro-service",
     name: "aukro-service",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "Aukro marketplace integration.",
-  },
-  {
+    primaryUrl: "https://aukro.alfares.cz",
+    healthUrl: "https://aukro.alfares.cz/health",
+    githubUrl: gh("aukro"),
+    domain: "aukro.alfares.cz",
+    access: "ui",
+  }),
+  entry({
     slug: "bazos-service",
     name: "bazos-service",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "Bazoš classifieds automation.",
-  },
-  {
+    primaryUrl: "https://bazos.alfares.cz",
+    healthUrl: "https://bazos.alfares.cz/health",
+    githubUrl: gh("bazos"),
+    domain: "bazos.alfares.cz",
+    access: "ui",
+  }),
+  entry({
     slug: "heureka-service",
     name: "heureka-service",
-    kind: "microservice",
+    kinds: ["top", "microservice"],
     summary: "Heureka XML feed generation.",
-  },
-  // —— Applications ——
-  {
+    primaryUrl: "https://heureka.alfares.cz",
+    healthUrl: "https://heureka.alfares.cz/health",
+    githubUrl: gh("heureka"),
+    domain: "heureka.alfares.cz",
+    access: "ui",
+  }),
+  entry({
     slug: "statex",
     name: "statex",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "AI-powered business automation platform.",
-  },
-  {
+    primaryUrl: "https://alfares.cz",
+    githubUrl: gh("statex"),
+    domain: "alfares.cz",
+    access: "ui",
+  }),
+  entry({
     slug: "flipflop-service",
     name: "flipflop-service",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "E-commerce for the Czech market.",
-  },
-  {
+    primaryUrl: "https://flipflop.alfares.cz",
+    githubUrl: gh("flipflop"),
+    domain: "flipflop.alfares.cz",
+    access: "ui",
+  }),
+  entry({
     slug: "chytrakoupe",
     name: "chytrakoupe",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "Czech conversion storefront (ChytraKoupe) on FlipFlop commerce APIs.",
     primaryUrl: "https://chytrakoupe.alfares.cz",
-  },
-  {
+    githubUrl: gh("chytracoupe"),
+    domain: "chytrakoupe.alfares.cz",
+    ports: "3000",
+    access: "ui",
+  }),
+  entry({
     slug: "cliplot",
     name: "cliplot",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "Czech e-commerce storefront (Cliplot).",
     primaryUrl: "https://cliplot.alfares.cz",
-  },
-  {
+    healthUrl: "https://cliplot.alfares.cz/health",
+    githubUrl: gh("cliplot"),
+    domain: "cliplot.alfares.cz",
+    ports: "8080",
+    access: "ui",
+  }),
+  entry({
     slug: "rent-a-box",
     name: "rent-a-box",
-    kind: "application",
-    summary: "Self-storage MVP — web + API rental journey.",
+    kinds: ["top", "application"],
+    summary: "Self-storage MVP — web plus API rental journey.",
     primaryUrl: "https://rent-a-box.alfares.cz",
-  },
-  {
+    healthUrl: "https://rent-a-box.alfares.cz/health",
+    githubUrl: gh("rent-a-box"),
+    domain: "rent-a-box.alfares.cz",
+    ports: "3000 / 8000",
+    access: "ui",
+  }),
+  entry({
     slug: "crypto-ai-agent",
     name: "crypto-ai-agent",
-    kind: "application",
-    summary: "AI-assisted crypto portfolio tooling.",
-  },
-  {
+    kinds: ["top", "application"],
+    summary: "AI-assisted crypto portfolio tooling. Production currently serves the FastAPI backend, not the Next.js app.",
+    githubUrl: gh("crypto-ai-agent"),
+    domain: "crypto-ai-agent.alfares.cz",
+    access: "api",
+    note: "GET / is 404. Live surface is Swagger at /docs. The Next.js frontend exists in-repo but is not in the production image.",
+    links: [{ label: "API docs", href: "https://crypto-ai-agent.alfares.cz/docs" }],
+    healthUrl: "https://crypto-ai-agent.alfares.cz/api/ready",
+  }),
+  entry({
     slug: "marathon",
     name: "marathon",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "Intensive learning programs and marathons.",
-  },
-  {
+    primaryUrl: "https://marathon.alfares.cz",
+    healthUrl: "https://marathon.alfares.cz/health",
+    githubUrl: gh("marathon"),
+    domain: "marathon.alfares.cz",
+    access: "ui",
+  }),
+  entry({
     slug: "sgiprealestate",
     name: "sgiprealestate",
-    kind: "application",
+    kinds: ["top", "application"],
     status: "future",
-    summary: "Real estate agency site (RU / EN / AR) — Non-K8s, no local runtime.",
-  },
-  {
+    summary: "Real estate agency site (RU / EN / AR). No local runtime and no Traefik ingress.",
+    domain: "sgiprealestate.alfares.cz",
+    ports: "4300 / 4301",
+    access: "internal",
+    note: "sgiprealestate.alfares.cz currently 404s. Non-K8s; no checkout on this host.",
+  }),
+  entry({
     slug: "shop-assistant",
     name: "shop-assistant",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "AI voice and text shopping assistant.",
-  },
-  {
+    primaryUrl: "https://shop-assistant.alfares.cz",
+    healthUrl: "https://shop-assistant.alfares.cz/health",
+    githubUrl: gh("shop-assistant"),
+    domain: "shop-assistant.alfares.cz",
+    ports: "4500 / 4501",
+    access: "ui",
+  }),
+  entry({
     slug: "speakasap",
     name: "speakasap",
-    kind: "application",
-    summary: "Online language learning platform.",
-  },
-  {
+    kinds: ["top", "application"],
+    summary: "Online language learning platform (Kubernetes frontend).",
+    primaryUrl: "https://speakasap.alfares.cz",
+    healthUrl: "https://speakasap.alfares.cz/health",
+    githubUrl: gh("speakasap-new"),
+    domain: "speakasap.alfares.cz",
+    access: "ui",
+  }),
+  entry({
     slug: "speakasap-portal",
     name: "speakasap-portal",
-    kind: "application",
-    status: "future",
-    summary: "Education portal, lessons, and recordings (legacy speakasap server).",
-  },
-  {
+    kinds: ["top", "application"],
+    summary: "Legacy Django education portal on the dedicated speakasap server (not Kubernetes).",
+    primaryUrl: "https://speakasap.com",
+    githubUrl: gh("speakasap-portal"),
+    domain: "speakasap.com",
+    access: "ui",
+    note: "Frozen Django 1.11.2 runtime. Distinct from speakasap.alfares.cz.",
+  }),
+  entry({
     slug: "school-committee",
     name: "school-committee",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "Czech primary school parent committee platform.",
-  },
-  {
+    primaryUrl: "https://strilkove.cz",
+    githubUrl: gh("school-committee"),
+    domain: "strilkove.cz",
+    ports: "4800",
+    access: "ui",
+    links: [{ label: "www", href: "https://www.strilkove.cz" }],
+  }),
+  entry({
     slug: "candidate-blueprism",
     name: "candidate-blueprism",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "Blue Prism candidate exercise and process-flow assessment tool.",
-  },
-  {
+    primaryUrl: "https://candidate-blueprism.alfares.cz",
+    githubUrl: gh("candidate-blueprism"),
+    domain: "candidate-blueprism.alfares.cz",
+    ports: "4850",
+    access: "ui",
+  }),
+  entry({
     slug: "domain-research",
     name: "domain-research",
-    kind: "application",
+    kinds: ["top", "application"],
     summary: "Domain suggestion, RDAP availability checks, and watch/notify.",
     primaryUrl: "https://domain-research.alfares.cz",
-  },
-  {
+    healthUrl: "https://domain-research.alfares.cz/health",
+    githubUrl: gh("domain-research"),
+    domain: "domain-research.alfares.cz",
+    ports: "4860",
+    access: "ui",
+  }),
+  entry({
     slug: "ecosystem-console",
     name: "ecosystem-console",
-    kind: "application",
+    kinds: ["application"],
     status: "future",
-    summary: "Ecosystem console UI (K8s only; no local Github repo).",
-    primaryUrl: "https://ecosystem-console.alfares.cz",
-  },
-  {
+    summary: "Ecosystem console UI. No local GitHub checkout and no live ingress.",
+    domain: "ecosystem-console.alfares.cz",
+    access: "internal",
+    note: "ecosystem-console.alfares.cz currently 404s.",
+  }),
+  entry({
     slug: "cv-tuning",
     name: "cv-tuning",
-    kind: "application",
-    status: "future",
-    summary: "CV tailoring platform — master CV to per-position tailored CV with grounding validator, diff review, and voice revision.",
-  },
-  {
+    kinds: ["top", "application"],
+    summary: "CV tailoring platform — master CV to per-position tailored CV with grounding, diff review, and voice revision.",
+    primaryUrl: "https://cv.alfares.cz",
+    githubUrl: gh("cv-tuning"),
+    domain: "cv.alfares.cz",
+    ports: "3379",
+    access: "ui",
+  }),
+  entry({
     slug: "wisdom-quotes",
     name: "wisdom-quotes",
-    kind: "application",
-    summary:
-      "Curated bilingual educational quotes for children — FastAPI + React, public reading and authenticated editorial workflow.",
+    kinds: ["top", "application"],
+    summary: "Curated bilingual educational quotes for children — public reading and authenticated editorial workflow.",
     primaryUrl: "https://wisdom-quotes.alfares.cz",
-  },
-  // —— Orchestration ——
-  {
+    healthUrl: "https://wisdom-quotes.alfares.cz/health",
+    githubUrl: gh("wisdom-quotes"),
+    domain: "wisdom-quotes.alfares.cz",
+    ports: "4720",
+    access: "ui",
+  }),
+  entry({
     slug: "runlayer",
     name: "runlayer",
-    kind: "orchestration",
+    kinds: ["top", "orchestration"],
     summary: "AI agent orchestration brain (businesses, projects, tasks, workers).",
     primaryUrl: "https://runlayer.alfares.cz",
-  },
-  // —— Hub ——
-  {
+    healthUrl: "https://runlayer.alfares.cz/health",
+    githubUrl: gh("runlayer"),
+    domain: "runlayer.alfares.cz",
+    ports: "3390 / 3391",
+    access: "ui",
+  }),
+  entry({
     slug: "shared",
     name: "shared",
-    kind: "hub",
-    summary: "Ecosystem documentation, scripts, and standards (repo, not a public site).",
-  },
-  {
+    kinds: ["hub"],
+    summary: "Ecosystem documentation, scripts, and standards. Not a public site.",
+    githubUrl: gh("shared"),
+    access: "docs",
+  }),
+  entry({
     slug: "k8s-manifests",
     name: "k8s-manifests",
-    kind: "hub",
+    kinds: ["hub", "infrastructure"],
     summary: "Shared Kubernetes manifests SSOT for statex-apps.",
-  },
-  {
+    githubUrl: gh("k8s-manifests"),
+    access: "docs",
+  }),
+  entry({
     slug: "vault",
     name: "vault",
-    kind: "hub",
+    kinds: ["hub", "infrastructure"],
     summary: "Vault policies and AppRole bootstrap (not the Vault runtime).",
-  },
-  {
+    githubUrl: gh("vault"),
+    access: "docs",
+  }),
+  entry({
     slug: "company-evidence-platform-docs",
     name: "company-evidence-platform-docs",
-    kind: "hub",
+    kinds: ["hub"],
     status: "future",
     summary: "Product docs for company/supplier verification service (docs-only).",
-  },
-  {
+    access: "docs",
+  }),
+  entry({
     slug: "intent-preservation-system",
     name: "intent-preservation-system",
-    kind: "hub",
+    kinds: ["hub"],
     summary: "IPS — documentation-first framework for AI-assisted delivery: preserves original project intent, decomposes it into implementation units, generates bounded context for agents, and validates work against upstream goals.",
-  },
-  // —— Static / other ——
-  {
+    githubUrl: gh("intent-preservation-system"),
+    access: "docs",
+  }),
+  entry({
     slug: "rehtani",
     name: "rehtani",
-    kind: "static",
+    kinds: ["static"],
     summary: "Static site — Řehtání Četechovice.",
     primaryUrl: "https://rehtani.alfares.cz",
-  },
-  {
+    healthUrl: "https://rehtani.alfares.cz/health",
+    domain: "rehtani.alfares.cz",
+    ports: "4601",
+    access: "ui",
+  }),
+  entry({
     slug: "statex-ecosystem",
     name: "statex-ecosystem",
-    kind: "static",
+    kinds: ["static"],
     summary: "Public Next.js ecosystem catalog for Statex applications and services.",
     primaryUrl: "https://statex-ecosystem.alfares.cz",
-  },
+    githubUrl: gh("statex-ecosystem"),
+    domain: "statex-ecosystem.alfares.cz",
+    ports: "4710 / 4711",
+    access: "ui",
+  }),
 ];
 
 export const allKinds: EcosystemKind[] = [
+  "top",
   "infrastructure",
   "microservice",
   "application",

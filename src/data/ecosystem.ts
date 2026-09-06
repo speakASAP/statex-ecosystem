@@ -107,6 +107,14 @@ export const ecosystemItems: EcosystemItem[] = [
     summary: "HashiCorp Vault secrets runtime (Docker permanent, not K8s).",
     primaryUrl: "https://vault.alfares.cz",
   },
+  {
+    slug: "screencast-recorder",
+    name: "screencast-recorder",
+    kind: "infrastructure",
+    summary:
+      "Screencast capture control plane + operator UI. Recording agents run as host systemd user services; sessions go to a private MinIO bucket.",
+    primaryUrl: "https://screencast.alfares.cz",
+  },
   // —— E-commerce & ops microservices ——
   {
     slug: "catalog-microservice",
@@ -320,6 +328,14 @@ export const ecosystemItems: EcosystemItem[] = [
     status: "future",
     summary: "CV tailoring platform — master CV to per-position tailored CV with grounding validator, diff review, and voice revision.",
   },
+  {
+    slug: "wisdom-quotes",
+    name: "wisdom-quotes",
+    kind: "application",
+    summary:
+      "Curated bilingual educational quotes for children — FastAPI + React, public reading and authenticated editorial workflow.",
+    primaryUrl: "https://wisdom-quotes.alfares.cz",
+  },
   // —— Orchestration ——
   {
     slug: "runlayer",
@@ -327,13 +343,6 @@ export const ecosystemItems: EcosystemItem[] = [
     kind: "orchestration",
     summary: "AI agent orchestration brain (businesses, projects, tasks, workers).",
     primaryUrl: "https://runlayer.alfares.cz",
-  },
-  {
-    slug: "goalkeeper",
-    name: "goalkeeper",
-    kind: "orchestration",
-    summary: "Telegram-first IPS-governed autonomous development control plane.",
-    primaryUrl: "https://goalkeeper.alfares.cz",
   },
   // —— Hub ——
   {
